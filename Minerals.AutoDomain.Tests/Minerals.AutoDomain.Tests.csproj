@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net8.0</TargetFrameworks>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <LangVersion>12</LangVersion>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <IsTestProject>true</IsTestProject>
+        <RootNamespace>Minerals.AutoDomain.Tests</RootNamespace>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Minerals.AutoDomain\Minerals.AutoDomain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" />
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" />
+        <PackageReference Include="Verify" Version="23.*" />
+        <PackageReference Include="Verify.MSTest" Version="23.*" />
+        <PackageReference Include="Verify.SourceGenerators" Version="2.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.*" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+        <PackageReference Include="MSTest.TestAdapter" Version="3.*" />
+        <PackageReference Include="MSTest.TestFramework" Version="3.*" />
+    </ItemGroup>
+
+</Project>
