@@ -65,7 +65,7 @@ namespace Minerals.AutoDomain.Initialization
                 [global::System.AttributeUsage(global::System.AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
                 public sealed class NewDomainEventAttribute : global::System.Attribute
                 {
-                    public NewDomainEventAttribute(string name)
+                    public NewDomainEventAttribute(string name, bool includeParentId = true)
                     {
                     }
                 }

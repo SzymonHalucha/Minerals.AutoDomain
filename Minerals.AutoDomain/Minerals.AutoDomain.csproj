@@ -49,9 +49,11 @@
         <None Include="..\LICENSE" Pack="true" PackagePath="" />
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
         <None Include="$(PKGMinerals_CodeBuilder)\lib\netstandard2.0\Minerals.CodeBuilder.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
+        <None Include="$(PKGMinerals_StringCases)\lib\netstandard2.0\Minerals.StringCases.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Minerals.StringCases" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Minerals.CodeBuilder" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" GeneratePathProperty="true" PrivateAssets="all" />

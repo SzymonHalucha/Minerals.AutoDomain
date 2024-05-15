@@ -6,4 +6,4 @@ global using Microsoft.CodeAnalysis;
 global using Microsoft.CodeAnalysis.Text;
 global using Microsoft.CodeAnalysis.CSharp.Syntax;
 global using Minerals.AutoDomain.Utils;
-global using Minerals.AutoDomain;
+global using Minerals.StringCases;
