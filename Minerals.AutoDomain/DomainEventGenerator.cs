@@ -39,9 +39,12 @@ namespace Minerals.AutoDomain
             AppendRecordHeader(builder, eventObj, attributeIndex);
 
             var arguments = GetSplitedArguments(eventObj, attributeIndex);
-            AppendRecordArguments(builder, arguments);
-            AppendRecordConstructorHeader(builder, eventObj, arguments, attributeIndex);
-            AppendRecordConstructorBody(builder, arguments);
+            if (arguments.Length > 0)
+            {
+                AppendRecordArguments(builder, arguments);
+                AppendRecordConstructorHeader(builder, eventObj, arguments, attributeIndex);
+                AppendRecordConstructorBody(builder, arguments);
+            }
 
             builder.CloseAllBlocks();
             return SourceText.From(builder.ToString(), Encoding.UTF8);
@@ -60,7 +63,7 @@ namespace Minerals.AutoDomain
 
         private static void AppendRecordHeader(CodeBuilder builder, DomainEventObject eventObj, int attributeIndex)
         {
-            builder.WriteLine("public sealed record ")
+            builder.WriteLine("public readonly struct ")
                 .Write(eventObj.Attributes[attributeIndex].Name)
                 .Write(" : global::Minerals.AutoDomain.IDomainEvent")
                 .OpenBlock();
@@ -96,17 +99,13 @@ namespace Minerals.AutoDomain
                     .Write(arg.Type)
                     .Write(" ")
                     .Write(arg.PascalCaseName)
-                    .Write(" { get; private set; }");
+                    .Write(" { get; }");
             }
         }
 
         private static void AppendRecordConstructorHeader(CodeBuilder builder, DomainEventObject eventObj, SplitArgumentObject[] arguments, int attributeIndex)
         {
-            if (arguments.Length > 0)
-            {
-                builder.NewLine();
-            }
-            builder.WriteLine("public ").Write(eventObj.Attributes[attributeIndex].Name).Write("(");
+            builder.NewLine().WriteLine("public ").Write(eventObj.Attributes[attributeIndex].Name).Write("(");
             for (int i = 0; i < arguments.Length; i++)
             {
                 builder.Write(arguments[i].Type)
