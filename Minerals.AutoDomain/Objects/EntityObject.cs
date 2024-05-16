@@ -1,4 +1,4 @@
-namespace Minerals.AutoDomain.Utils
+namespace Minerals.AutoDomain.Objects
 {
     public readonly struct EntityObject : IEquatable<EntityObject>
     {

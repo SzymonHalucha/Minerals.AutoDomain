@@ -5,5 +5,6 @@ global using System.Reflection;
 global using Microsoft.CodeAnalysis;
 global using Microsoft.CodeAnalysis.Text;
 global using Microsoft.CodeAnalysis.CSharp.Syntax;
+global using Minerals.AutoDomain.Objects;
 global using Minerals.AutoDomain.Utils;
 global using Minerals.StringCases;

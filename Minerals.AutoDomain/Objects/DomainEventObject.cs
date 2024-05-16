@@ -1,49 +1,40 @@
-namespace Minerals.AutoDomain.Utils
+namespace Minerals.AutoDomain.Objects
 {
     public readonly struct DomainEventObject : IEquatable<DomainEventObject>
     {
-        public bool IncludeParentId { get; }
+        public string Namespace { get; }
         public string ParentName { get; }
         public string[] Arguments { get; }
-        public string Namespace { get; }
-        public string Name { get; }
+        public AttributeArgumentsObject[] Attributes { get; }
 
         public DomainEventObject(GeneratorAttributeSyntaxContext context)
         {
-            IncludeParentId = GetIncludeParentIdArgument(context);
+            Namespace = CodeBuilderHelper.GetNamespaceOf(context.TargetNode) ?? string.Empty;
             ParentName = GetParentNameOf(context);
             Arguments = GetArgumentsOf(context);
-            Namespace = CodeBuilderHelper.GetNamespaceOf(context.TargetNode) ?? string.Empty;
-            Name = GetEventName(context);
+            Attributes = GetAttributesArgumentsOf(context);
         }
 
         public bool Equals(DomainEventObject other)
         {
-            return other.IncludeParentId.Equals(IncludeParentId)
+            return other.Namespace.Equals(Namespace)
                 && other.ParentName.Equals(ParentName)
                 && other.Arguments.SequenceEqual(Arguments)
-                && other.Namespace.Equals(Namespace)
-                && other.Name.Equals(Name);
+                && other.Attributes.SequenceEqual(Attributes);
         }
 
         public override bool Equals(object? obj)
         {
             return obj is DomainEventObject other
-                && other.IncludeParentId.Equals(IncludeParentId)
+                && other.Namespace.Equals(Namespace)
                 && other.ParentName.Equals(ParentName)
                 && other.Arguments.SequenceEqual(Arguments)
-                && other.Namespace.Equals(Namespace)
-                && other.Name.Equals(Name);
+                && other.Attributes.SequenceEqual(Attributes);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(IncludeParentId, ParentName, Arguments, Namespace, Name);
-        }
-
-        private bool GetIncludeParentIdArgument(GeneratorAttributeSyntaxContext context)
-        {
-            return (bool)context.Attributes.First().ConstructorArguments.Skip(1).First().Value!;
+            return HashCode.Combine(Namespace, ParentName, Arguments, Attributes);
         }
 
         private static string GetParentNameOf(GeneratorAttributeSyntaxContext context)
@@ -51,14 +42,25 @@ namespace Minerals.AutoDomain.Utils
             return context.TargetSymbol.ContainingType.Name;
         }
 
-        private static string GetEventName(GeneratorAttributeSyntaxContext context)
-        {
-            return context.Attributes.First().ConstructorArguments.First().Value!.ToString();
-        }
-
+        //TODO: Add Multiple Declaration Syntax Support
         private static string[] GetArgumentsOf(GeneratorAttributeSyntaxContext context)
         {
+            
             return ((MethodDeclarationSyntax)context.TargetNode).ParameterList.Parameters.Select(x => x.ToString()).ToArray();
+        }
+
+        private static AttributeArgumentsObject[] GetAttributesArgumentsOf(GeneratorAttributeSyntaxContext context)
+        {
+            var args = new AttributeArgumentsObject[context.Attributes.Length];
+            for (int i = 0; i < args.Length; i++)
+            {
+                args[i] = new
+                (
+                    (string)context.Attributes[i].ConstructorArguments.First().Value!,
+                    (bool)context.Attributes[i].ConstructorArguments.Skip(1).First().Value!
+                );
+            }
+            return args;
         }
     }
 }
