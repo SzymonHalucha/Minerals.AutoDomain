@@ -15,7 +15,7 @@
         <Title>AutoDomain</Title>
         <Authors>Szymon Hałucha</Authors>
         <Product>AutoDomain</Product>
-        <Description>Simple package that supports the creation of aggregates and entities for the domain layer using an incremental source generator</Description>
+        <Description>Simple package that supports the creation of aggregates, entities and domain events for the domain layer using an incremental source generator</Description>
         <Copyright>Copyright © Szymon Hałucha 2024</Copyright>
     </PropertyGroup>
 
@@ -23,7 +23,7 @@
         <PackageId>Minerals.AutoDomain</PackageId>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/SzymonHalucha/Minerals.AutoDomain</PackageProjectUrl>
-        <PackageTags>aggregates, aggregate, aggregate root, domain, events, entity, entites, id, attributes, generator, generation</PackageTags>
+        <PackageTags>aggregates, aggregate, root, domain, ddd, events, entity, entites, id, attributes, generator, generation</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageReleaseNotes>First release</PackageReleaseNotes>
         <IsPackable>true</IsPackable>
