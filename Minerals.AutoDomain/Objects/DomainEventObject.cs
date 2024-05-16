@@ -4,7 +4,6 @@ namespace Minerals.AutoDomain.Objects
     {
         public string Namespace { get; }
         public string ParentName { get; }
-        public bool IsEntity { get; }
         public string[] Arguments { get; }
         public AttributeArgumentsObject[] Attributes { get; }
 
@@ -12,7 +11,6 @@ namespace Minerals.AutoDomain.Objects
         {
             Namespace = CodeBuilderHelper.GetNamespaceOf(context.TargetNode) ?? string.Empty;
             ParentName = GetParentNameOf(context);
-            IsEntity = GetEntityInterfaceOf(context);
             Arguments = GetArgumentsOf(context);
             Attributes = GetAttributesArgumentsOf(context);
         }
@@ -21,7 +19,6 @@ namespace Minerals.AutoDomain.Objects
         {
             return other.Namespace.Equals(Namespace)
                 && other.ParentName.Equals(ParentName)
-                && other.IsEntity.Equals(IsEntity)
                 && other.Arguments.SequenceEqual(Arguments)
                 && other.Attributes.SequenceEqual(Attributes);
         }
@@ -31,14 +28,13 @@ namespace Minerals.AutoDomain.Objects
             return obj is DomainEventObject other
                 && other.Namespace.Equals(Namespace)
                 && other.ParentName.Equals(ParentName)
-                && other.IsEntity.Equals(IsEntity)
                 && other.Arguments.SequenceEqual(Arguments)
                 && other.Attributes.SequenceEqual(Attributes);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Namespace, ParentName, IsEntity, Arguments, Attributes);
+            return HashCode.Combine(Namespace, ParentName, Arguments, Attributes);
         }
 
         private static string GetParentNameOf(GeneratorAttributeSyntaxContext context)
@@ -46,17 +42,6 @@ namespace Minerals.AutoDomain.Objects
             return context.TargetNode is BaseTypeDeclarationSyntax typeSyntax
                 ? typeSyntax.Identifier.Text
                 : context.TargetSymbol.ContainingType.Name;
-        }
-
-        //TODO: Check this...
-        private bool GetEntityInterfaceOf(GeneratorAttributeSyntaxContext context)
-        {
-            return true;
-            // return context.TargetSymbol.ContainingType.Interfaces.Any(x =>
-            // {
-            //     return x.MetadataName.Equals("Minerals.AutoDomain.IEntity")
-            //         || x.MetadataName.Equals("Minerals.AutoDomain.IAggregateRoot");
-            // });
         }
 
         private static string[] GetArgumentsOf(GeneratorAttributeSyntaxContext context)

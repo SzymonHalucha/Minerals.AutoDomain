@@ -70,9 +70,9 @@ namespace Minerals.AutoDomain
 
         private static SplitArgumentObject[] GetSplitedArguments(DomainEventObject eventObj, int attributeIndex)
         {
-            var indexOffset = eventObj.Attributes[attributeIndex].IncludeParentId && eventObj.IsEntity ? 1 : 0;
+            var indexOffset = eventObj.Attributes[attributeIndex].IncludeParentId ? 1 : 0;
             var args = new SplitArgumentObject[eventObj.Arguments.Length + indexOffset];
-            if (eventObj.Attributes[attributeIndex].IncludeParentId && eventObj.IsEntity)
+            if (eventObj.Attributes[attributeIndex].IncludeParentId)
             {
                 args[0] = GetParentIdSplitedArgument(eventObj);
             }
