@@ -17,6 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Minerals.CodeBuilder" Version="0.2.0" />
+        <PackageReference Include="Minerals.StringCases" Version="0.1.0" />
         <PackageReference Include="BenchmarkDotNet" Version="0.13.*" />
         <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" />
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" />

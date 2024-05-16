@@ -12,3 +12,4 @@ global using BenchmarkDotNet.Attributes;
 global using BenchmarkDotNet.Validators;
 global using BenchmarkDotNet.Diagnosers;
 global using BenchmarkDotNet.Environments;
+global using Minerals.AutoDomain.Benchmarks.Utils;
