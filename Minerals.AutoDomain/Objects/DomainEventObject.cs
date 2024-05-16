@@ -62,15 +62,6 @@ namespace Minerals.AutoDomain.Objects
             {
                 return [$"{propertySyntax.Type} {propertySyntax.Identifier.Text}"];
             }
-            else if (context.TargetNode is FieldDeclarationSyntax fieldSyntax)
-            {
-                var type = fieldSyntax.Declaration.Type.ToString();
-                return fieldSyntax.Declaration.Variables.Select(x => $"{type} {x.Identifier.Text}").ToArray();
-            }
-            else if (context.TargetNode is EnumDeclarationSyntax enumSyntax)
-            {
-                return [enumSyntax.Identifier.Text];
-            }
             else
             {
                 return Array.Empty<string>();

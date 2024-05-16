@@ -26,9 +26,7 @@ namespace Minerals.AutoDomain
             return node is TypeDeclarationSyntax
                 or MethodDeclarationSyntax
                 or ConstructorDeclarationSyntax
-                or PropertyDeclarationSyntax
-                or FieldDeclarationSyntax
-                or EnumDeclarationSyntax;
+                or PropertyDeclarationSyntax;
         }
 
         private static SourceText GenerateRecord(DomainEventObject eventObj, int attributeIndex)
@@ -104,7 +102,11 @@ namespace Minerals.AutoDomain
 
         private static void AppendRecordConstructorHeader(CodeBuilder builder, DomainEventObject eventObj, SplitArgumentObject[] arguments, int attributeIndex)
         {
-            builder.NewLine().WriteLine("public ").Write(eventObj.Attributes[attributeIndex].Name).Write("(");
+            if (arguments.Length > 0)
+            {
+                builder.NewLine();
+            }
+            builder.WriteLine("public ").Write(eventObj.Attributes[attributeIndex].Name).Write("(");
             for (int i = 0; i < arguments.Length; i++)
             {
                 builder.Write(arguments[i].Type)

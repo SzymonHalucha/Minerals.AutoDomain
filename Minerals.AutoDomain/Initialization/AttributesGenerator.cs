@@ -62,7 +62,7 @@ namespace Minerals.AutoDomain.Initialization
                 [global::System.Diagnostics.DebuggerNonUserCode]
                 [global::System.Runtime.CompilerServices.CompilerGenerated]
                 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-                [global::System.AttributeUsage(global::System.AttributeTargets.Class | global::System.AttributeTargets.Struct | global::System.AttributeTargets.Enum | global::System.AttributeTargets.Constructor | global::System.AttributeTargets.Method | global::System.AttributeTargets.Property | global::System.AttributeTargets.Field, AllowMultiple = true, Inherited = false)]
+                [global::System.AttributeUsage(global::System.AttributeTargets.Class | global::System.AttributeTargets.Struct | global::System.AttributeTargets.Enum | global::System.AttributeTargets.Constructor | global::System.AttributeTargets.Method | global::System.AttributeTargets.Property, AllowMultiple = true, Inherited = false)]
                 public sealed class NewDomainEventAttribute : global::System.Attribute
                 {
                     public NewDomainEventAttribute(string name, bool includeParentId = true)
