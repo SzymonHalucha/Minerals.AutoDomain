@@ -23,7 +23,7 @@
         <PackageId>Minerals.AutoDomain</PackageId>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/SzymonHalucha/Minerals.AutoDomain</PackageProjectUrl>
-        <PackageTags>aggregates, aggregate, root, domain, ddd, events, entity, entites, id, attributes, generator, generation</PackageTags>
+        <PackageTags>aggregates, aggregate, root, domain, ddd, events, entity, entites, strongly, typed, id, attributes, generator, generation</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageReleaseNotes>First release</PackageReleaseNotes>
         <IsPackable>true</IsPackable>
