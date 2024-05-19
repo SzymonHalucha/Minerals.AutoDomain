@@ -10,7 +10,6 @@
         <RootNamespace>Minerals.AutoDomain</RootNamespace>
         <IncludeBuildOutput>true</IncludeBuildOutput>
         <IsPackable>true</IsPackable>
-        <Optimize>true</Optimize>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -42,6 +41,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePackageValidation>true</EnablePackageValidation>
         <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+        <Optimize>true</Optimize>
     </PropertyGroup>
 
     <ItemGroup>

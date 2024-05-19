@@ -44,29 +44,49 @@ namespace Minerals.AutoDomain.Generators.Objects
                 : context.TargetSymbol.ContainingType.Name;
         }
 
-        //TODO: Include arguments namespaces
         private static string[] GetArgumentsOf(GeneratorAttributeSyntaxContext context)
         {
             if (context.TargetNode is TypeDeclarationSyntax typeSyntax)
             {
-                return typeSyntax.ParameterList?.Parameters.Select(x => x.ToString()).ToArray() ?? Array.Empty<string>();
+                return GetArgumentsFromParameterList(context.SemanticModel, typeSyntax.ParameterList);
             }
             else if (context.TargetNode is MethodDeclarationSyntax methodSyntax)
             {
-                return methodSyntax.ParameterList?.Parameters.Select(x => x.ToString()).ToArray() ?? Array.Empty<string>();
+                return GetArgumentsFromParameterList(context.SemanticModel, methodSyntax.ParameterList);
             }
             else if (context.TargetNode is ConstructorDeclarationSyntax constructorSyntax)
             {
-                return constructorSyntax.ParameterList?.Parameters.Select(x => x.ToString()).ToArray() ?? Array.Empty<string>();
+                return GetArgumentsFromParameterList(context.SemanticModel, constructorSyntax.ParameterList);
             }
             else if (context.TargetNode is PropertyDeclarationSyntax propertySyntax)
             {
-                return [$"{propertySyntax.Type} {propertySyntax.Identifier.Text}"];
+                var type = context.SemanticModel.GetDeclaredSymbol(propertySyntax)!.Type;
+                return
+                [
+                    type!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                    propertySyntax.Identifier.Text
+                ];
             }
             else
             {
                 return Array.Empty<string>();
             }
+        }
+
+        private static string[] GetArgumentsFromParameterList(SemanticModel model, ParameterListSyntax? listSyntax)
+        {
+            if (listSyntax is null)
+            {
+                return Array.Empty<string>();
+            }
+            var args = new string[listSyntax.Parameters.Count * 2];
+            for (int i = 0; i < listSyntax.Parameters.Count; i++)
+            {
+                var type = model.GetDeclaredSymbol(listSyntax.Parameters[i])!.Type;
+                args[i * 2] = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                args[i * 2 + 1] = listSyntax.Parameters[i].Identifier.Text;
+            }
+            return args;
         }
 
         private static AttributeArgumentsObject[] GetAttributesArgumentsOf(GeneratorAttributeSyntaxContext context)

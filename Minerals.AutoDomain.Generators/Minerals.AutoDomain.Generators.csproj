@@ -10,7 +10,6 @@
         <RootNamespace>Minerals.AutoDomain.Generators</RootNamespace>
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <IsPackable>true</IsPackable>
-        <Optimize>true</Optimize>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -23,6 +22,10 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <RepositoryBranch>v$(Version)</RepositoryBranch>
         <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <Optimize>true</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
