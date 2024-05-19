@@ -8,7 +8,7 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>Minerals.AutoDomain.Tests</RootNamespace>
+        <RootNamespace>Minerals.AutoDomain.Benchmarks</RootNamespace>
         <Optimize>true</Optimize>
     </PropertyGroup>
 
