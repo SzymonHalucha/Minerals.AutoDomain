@@ -1,4 +1,4 @@
-namespace Minerals.AutoDomain.Utils
+namespace Minerals.AutoDomain.Generators.Utils
 {
     public static class IEquatableGeneration
     {
@@ -49,6 +49,40 @@ namespace Minerals.AutoDomain.Utils
                 .WriteLine("return ")
                 .Write(valueSyntax)
                 .Write(".GetHashCode();")
+                .CloseBlock()
+                .NewLine();
+        }
+
+        public static void AppendOverrideEqualOperator(CodeBuilder builder, string objectName, string valueSyntax, bool appendNullChecking)
+        {
+            builder.WriteLine("public static bool operator ==(")
+                .Write(objectName)
+                .Write(" left, ")
+                .Write(objectName)
+                .Write(" right)")
+                .OpenBlock()
+                .WriteLine(appendNullChecking ? "return left != null && right != null && left." : "return left.")
+                .Write(valueSyntax)
+                .Write(".Equals(right.")
+                .Write(valueSyntax)
+                .Write(");")
+                .CloseBlock()
+                .NewLine();
+        }
+
+        public static void AppendOverrideNotEqualOperator(CodeBuilder builder, string objectName, string valueSyntax, bool appendNullChecking)
+        {
+            builder.WriteLine("public static bool operator !=(")
+                .Write(objectName)
+                .Write(" left, ")
+                .Write(objectName)
+                .Write(" right)")
+                .OpenBlock()
+                .WriteLine(appendNullChecking ? "return (left != null && right == null) || (left == null && right != null) || !left." : "return !left.")
+                .Write(valueSyntax)
+                .Write(".Equals(right.")
+                .Write(valueSyntax)
+                .Write(");")
                 .CloseBlock();
         }
     }

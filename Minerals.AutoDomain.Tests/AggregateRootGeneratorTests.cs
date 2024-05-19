@@ -9,6 +9,7 @@ namespace Minerals.AutoDomain.Tests
             (
                 typeof(object),
                 typeof(CodeBuilder),
+                typeof(IAggregateRoot),
                 typeof(StringCases.StringExtensions),
                 typeof(DomainEventGenerator),
                 typeof(Assembly)
@@ -25,12 +26,7 @@ namespace Minerals.AutoDomain.Tests
             [AggregateRoot]
             public partial class TestClass { }
             """;
-            IIncrementalGenerator[] additional =
-            [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
-            ];
-            return this.VerifyIncrementalGenerators(source, new AggregateRootGenerator(), additional);
+            return this.VerifyIncrementalGenerators(source, new AggregateRootGenerator());
         }
 
         [TestMethod]
@@ -40,12 +36,7 @@ namespace Minerals.AutoDomain.Tests
             [Minerals.AutoDomain.AggregateRoot]
             public partial class TestClass { }
             """;
-            IIncrementalGenerator[] additional =
-            [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
-            ];
-            return this.VerifyIncrementalGenerators(source, new AggregateRootGenerator(), additional);
+            return this.VerifyIncrementalGenerators(source, new AggregateRootGenerator());
         }
 
         [TestMethod]
@@ -58,12 +49,7 @@ namespace Minerals.AutoDomain.Tests
                 public partial class TestClass { }
             }
             """;
-            IIncrementalGenerator[] additional =
-            [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
-            ];
-            return this.VerifyIncrementalGenerators(source, new AggregateRootGenerator(), additional);
+            return this.VerifyIncrementalGenerators(source, new AggregateRootGenerator());
         }
     }
 }

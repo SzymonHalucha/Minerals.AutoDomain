@@ -1,4 +1,4 @@
-namespace Minerals.AutoDomain.Objects
+namespace Minerals.AutoDomain.Generators.Objects
 {
     public readonly struct SplitArgumentObject(string type, string pascalCaseName, string camelCaseName) : IEquatable<SplitArgumentObject>
     {

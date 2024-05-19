@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <LangVersion>12</LangVersion>
+        <Nullable>enable</Nullable>
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <RootNamespace>Minerals.AutoDomain.Generators</RootNamespace>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <IsPackable>true</IsPackable>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Title>AutoDomain.Generators</Title>
+        <Product>AutoDomain.Generators</Product>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <RepositoryUrl>https://github.com/SzymonHalucha/Minerals.AutoDomain.git</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryBranch>v$(Version)</RepositoryBranch>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Minerals.StringCases" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="Minerals.CodeBuilder" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" />
+        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" />
+        <PackageReference Update="NETStandard.Library" />
+    </ItemGroup>
+
+</Project>

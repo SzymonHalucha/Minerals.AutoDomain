@@ -1,18 +1,18 @@
-namespace Minerals.AutoDomain
+namespace Minerals.AutoDomain.Generators
 {
     [Generator]
     public sealed class EntityGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            var generates = context.SyntaxProvider.ForAttributeWithMetadataName
+            var entities = context.SyntaxProvider.ForAttributeWithMetadataName
             (
                 "Minerals.AutoDomain.EntityAttribute",
                 static (x, _) => x is TypeDeclarationSyntax,
                 static (x, _) => new EntityObject(x)
             );
 
-            context.RegisterSourceOutput(generates, static (ctx, element) =>
+            context.RegisterSourceOutput(entities, static (ctx, element) =>
             {
                 ctx.AddSource($"{element.Name}Id.g.cs", IdentifierGeneration.AppendStructFile(element));
                 ctx.AddSource($"{element.Name}.g.cs", GeneratePartialClass(element));
@@ -35,6 +35,8 @@ namespace Minerals.AutoDomain
             IEquatableGeneration.AppendEquals(builder, entityObj.Name, "Id.Value");
             IEquatableGeneration.AppendOverrideEquals(builder, entityObj.Name, "Id.Value");
             IEquatableGeneration.AppendOverrideGetHashCode(builder, "Id.Value");
+            IEquatableGeneration.AppendOverrideEqualOperator(builder, entityObj.Name, "Id.Value", true);
+            IEquatableGeneration.AppendOverrideNotEqualOperator(builder, entityObj.Name, "Id.Value", true);
 
             builder.CloseAllBlocks();
             return SourceText.From(builder.ToString(), Encoding.UTF8);

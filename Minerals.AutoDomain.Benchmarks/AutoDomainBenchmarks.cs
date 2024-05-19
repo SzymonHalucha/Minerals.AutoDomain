@@ -1,5 +1,3 @@
-using Minerals.AutoDomain.Initialization;
-
 namespace Minerals.AutoDomain.Benchmarks
 {
     public class AutoDomainBenchmarks
@@ -50,6 +48,7 @@ namespace Minerals.AutoDomain.Benchmarks
             var references = BenchmarkGenerationExtensions.GetAppReferences
             (
                 typeof(object),
+                typeof(IAggregateRoot),
                 typeof(DomainEventGenerator),
                 typeof(StringCases.StringExtensions),
                 typeof(CodeBuilder)
@@ -63,21 +62,19 @@ namespace Minerals.AutoDomain.Benchmarks
             (
                 _withEntityAttribute,
                 new EntityGenerator(),
-                [new AttributesGenerator(), new InterfacesGenerator()],
                 references
             );
             AggregateRootGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
                 _withAggregateRootAttribute,
                 new AggregateRootGenerator(),
-                [new AttributesGenerator(), new InterfacesGenerator()],
                 references
             );
             DomainEventGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
                 _withDomainEventAttribute,
                 new DomainEventGenerator(),
-                [new AttributesGenerator(), new InterfacesGenerator(), new AggregateRootGenerator()],
+                [new AggregateRootGenerator()],
                 references
             );
             BaselineDouble = BenchmarkGenerationExtensions.CreateGeneration
@@ -89,21 +86,19 @@ namespace Minerals.AutoDomain.Benchmarks
             (
                 _withEntityAttribute,
                 new EntityGenerator(),
-                [new AttributesGenerator(), new InterfacesGenerator()],
                 references
             );
             AggregateRootGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
                 _withAggregateRootAttribute,
                 new AggregateRootGenerator(),
-                [new AttributesGenerator(), new InterfacesGenerator()],
                 references
             );
             DomainEventGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
                 _withDomainEventAttribute,
                 new DomainEventGenerator(),
-                [new AttributesGenerator(), new InterfacesGenerator(), new AggregateRootGenerator()],
+                [new AggregateRootGenerator()],
                 references
             );
             BaselineDouble.RunAndSaveGeneration();

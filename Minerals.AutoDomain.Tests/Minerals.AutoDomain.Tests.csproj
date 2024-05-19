@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Minerals.AutoDomain\Minerals.AutoDomain.csproj" />
+        <ProjectReference Include="..\Minerals.AutoDomain.Generators\Minerals.AutoDomain.Generators.csproj" />
     </ItemGroup>
 
     <ItemGroup>

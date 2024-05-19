@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoDomain", "Minerals.AutoDomain\Minerals.AutoDomain.csproj", "{A7B7BA87-8391-42CB-BD10-FAA8579FF1BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoDomain", "Minerals.AutoDomain\Minerals.AutoDomain.csproj", "{FDF4650F-FC44-43BD-8434-6705D96DE861}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoDomain.Benchmarks", "Minerals.AutoDomain.Benchmarks\Minerals.AutoDomain.Benchmarks.csproj", "{BA66DC73-06B1-487F-B570-E847EE8B196D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoDomain.Benchmarks", "Minerals.AutoDomain.Benchmarks\Minerals.AutoDomain.Benchmarks.csproj", "{7CCB313B-C219-4D5E-B2AD-17808E4F691D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoDomain.Tests", "Minerals.AutoDomain.Tests\Minerals.AutoDomain.Tests.csproj", "{3FD214B1-3676-40A9-A68A-06F19F110798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoDomain.Generators", "Minerals.AutoDomain.Generators\Minerals.AutoDomain.Generators.csproj", "{BC0A8622-152F-43B8-A31E-5D15963BD58E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minerals.AutoDomain.Tests", "Minerals.AutoDomain.Tests\Minerals.AutoDomain.Tests.csproj", "{6DDF88A2-9096-4DF2-8E2F-CCBE1CACB238}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +17,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A7B7BA87-8391-42CB-BD10-FAA8579FF1BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7B7BA87-8391-42CB-BD10-FAA8579FF1BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7B7BA87-8391-42CB-BD10-FAA8579FF1BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7B7BA87-8391-42CB-BD10-FAA8579FF1BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA66DC73-06B1-487F-B570-E847EE8B196D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA66DC73-06B1-487F-B570-E847EE8B196D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA66DC73-06B1-487F-B570-E847EE8B196D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA66DC73-06B1-487F-B570-E847EE8B196D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3FD214B1-3676-40A9-A68A-06F19F110798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3FD214B1-3676-40A9-A68A-06F19F110798}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3FD214B1-3676-40A9-A68A-06F19F110798}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3FD214B1-3676-40A9-A68A-06F19F110798}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDF4650F-FC44-43BD-8434-6705D96DE861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF4650F-FC44-43BD-8434-6705D96DE861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF4650F-FC44-43BD-8434-6705D96DE861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF4650F-FC44-43BD-8434-6705D96DE861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CCB313B-C219-4D5E-B2AD-17808E4F691D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCB313B-C219-4D5E-B2AD-17808E4F691D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CCB313B-C219-4D5E-B2AD-17808E4F691D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CCB313B-C219-4D5E-B2AD-17808E4F691D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC0A8622-152F-43B8-A31E-5D15963BD58E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC0A8622-152F-43B8-A31E-5D15963BD58E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC0A8622-152F-43B8-A31E-5D15963BD58E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC0A8622-152F-43B8-A31E-5D15963BD58E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DDF88A2-9096-4DF2-8E2F-CCBE1CACB238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DDF88A2-9096-4DF2-8E2F-CCBE1CACB238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DDF88A2-9096-4DF2-8E2F-CCBE1CACB238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DDF88A2-9096-4DF2-8E2F-CCBE1CACB238}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F115DB6B-37CF-46EB-8671-C7FCB7304881}
+		SolutionGuid = {C49D5939-60F1-4269-96EF-3F1ACE587CC3}
 	EndGlobalSection
 EndGlobal

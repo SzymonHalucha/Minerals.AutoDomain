@@ -1,18 +1,18 @@
-namespace Minerals.AutoDomain
+namespace Minerals.AutoDomain.Generators
 {
     [Generator]
     public sealed class DomainEventGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            var generates = context.SyntaxProvider.ForAttributeWithMetadataName
+            var events = context.SyntaxProvider.ForAttributeWithMetadataName
             (
                 "Minerals.AutoDomain.NewDomainEventAttribute",
                 static (x, _) => CheckValidity(x),
                 static (x, _) => new DomainEventObject(x)
             );
 
-            context.RegisterSourceOutput(generates, static (ctx, element) =>
+            context.RegisterSourceOutput(events, static (ctx, element) =>
             {
                 for (int i = 0; i < element.Attributes.Length; i++)
                 {
@@ -60,10 +60,9 @@ namespace Minerals.AutoDomain
                     .OpenBlock();
             }
         }
-
         private static void AppendRecordHeader(CodeBuilder builder, DomainEventObject eventObj, int attributeIndex)
         {
-            builder.WriteLine("public readonly struct ")
+            builder.WriteLine("public readonly partial struct ")
                 .Write(eventObj.Attributes[attributeIndex].Name)
                 .Write(" : global::Minerals.AutoDomain.IDomainEvent")
                 .OpenBlock();

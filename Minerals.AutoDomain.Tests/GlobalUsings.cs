@@ -9,5 +9,5 @@ global using Microsoft.VisualStudio.TestTools.UnitTesting;
 global using DiffEngine;
 global using VerifyTests;
 global using VerifyMSTest;
+global using Minerals.AutoDomain.Generators;
 global using Minerals.AutoDomain.Tests.Utils;
-global using Minerals.AutoDomain.Initialization;

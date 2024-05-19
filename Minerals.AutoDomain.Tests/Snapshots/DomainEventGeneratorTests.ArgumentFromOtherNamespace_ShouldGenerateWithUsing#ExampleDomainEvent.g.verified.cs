@@ -4,7 +4,7 @@
 // Name: Minerals.AutoDomain.Generators
 // Version: {Removed}
 // </auto-generated>
-namespace Minerals.Tests.Events
+namespace Minerals.Examples.Events
 {
     [global::System.Diagnostics.DebuggerNonUserCode]
     [global::System.Runtime.CompilerServices.CompilerGenerated]
@@ -12,10 +12,12 @@ namespace Minerals.Tests.Events
     public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.IDomainEvent
     {
         public TestClassId TestClassId { get; }
+        public global::OtherNamespace.OtherStruct OtherStruct { get; }
 
-        public ExampleDomainEvent(TestClassId testClassId)
+        public ExampleDomainEvent(TestClassId testClassId, global::OtherNamespace.OtherStruct otherStruct)
         {
             TestClassId = testClassId;
+            OtherStruct = otherStruct;
         }
     }
 }

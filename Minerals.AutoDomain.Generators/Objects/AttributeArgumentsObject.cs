@@ -1,4 +1,4 @@
-namespace Minerals.AutoDomain.Objects
+namespace Minerals.AutoDomain.Generators.Objects
 {
     public readonly struct AttributeArgumentsObject(string name, bool includeParentId) : IEquatable<AttributeArgumentsObject>
     {

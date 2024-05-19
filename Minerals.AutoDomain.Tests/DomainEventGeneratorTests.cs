@@ -9,6 +9,7 @@ namespace Minerals.AutoDomain.Tests
             (
                 typeof(object),
                 typeof(CodeBuilder),
+                typeof(IAggregateRoot),
                 typeof(StringCases.StringExtensions),
                 typeof(DomainEventGenerator),
                 typeof(Assembly)
@@ -31,8 +32,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new EntityGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -56,8 +55,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new EntityGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -78,8 +75,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -100,8 +95,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -123,8 +116,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -145,8 +136,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -167,8 +156,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -185,8 +172,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -210,8 +195,6 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
@@ -235,8 +218,38 @@ namespace Minerals.AutoDomain.Tests
             """;
             IIncrementalGenerator[] additional =
             [
-                new AttributesGenerator(),
-                new InterfacesGenerator(),
+                new AggregateRootGenerator()
+            ];
+            return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);
+        }
+
+        [TestMethod]
+        public Task ArgumentFromOtherNamespace_ShouldGenerateWithUsing()
+        {
+            const string source = """
+            using Minerals.AutoDomain;
+            using OtherNamespace;
+
+            namespace Minerals.Examples
+            {
+                [AggregateRoot]
+                public partial class TestClass 
+                {
+                    [NewDomainEvent("ExampleDomainEvent")]
+                    public TestClass(OtherStruct otherStruct)
+                    {
+
+                    }
+                }
+            }
+
+            namespace OtherNamespace
+            {
+                public struct OtherStruct { }
+            }
+            """;
+            IIncrementalGenerator[] additional =
+            [
                 new AggregateRootGenerator()
             ];
             return this.VerifyIncrementalGenerators(source, new DomainEventGenerator(), additional);

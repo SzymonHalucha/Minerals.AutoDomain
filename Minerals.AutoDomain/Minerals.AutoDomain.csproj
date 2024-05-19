@@ -8,10 +8,13 @@
         <IsRoslynComponent>true</IsRoslynComponent>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <RootNamespace>Minerals.AutoDomain</RootNamespace>
+        <IncludeBuildOutput>true</IncludeBuildOutput>
+        <IsPackable>true</IsPackable>
+        <Optimize>true</Optimize>
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>0.1.0</Version>
+        <Version>0.2.0</Version>
         <Title>AutoDomain</Title>
         <Authors>Szymon Hałucha</Authors>
         <Product>AutoDomain</Product>
@@ -26,7 +29,6 @@
         <PackageTags>aggregates, aggregate, root, domain, ddd, events, entity, entites, strongly, typed, id, attributes, generator, generation</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageReleaseNotes>First release</PackageReleaseNotes>
-        <IsPackable>true</IsPackable>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -40,24 +42,29 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <EnablePackageValidation>true</EnablePackageValidation>
         <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-        <Optimize>true</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
         <None Include="README.md" Pack="true" PackagePath="" />
         <None Include="..\LICENSE" Pack="true" PackagePath="" />
-        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
-        <None Include="$(PKGMinerals_CodeBuilder)\lib\netstandard2.0\Minerals.CodeBuilder.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
-        <None Include="$(PKGMinerals_StringCases)\lib\netstandard2.0\Minerals.StringCases.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
+        <None Include="..\Minerals.AutoDomain.Generators\bin\$(Configuration)\netstandard2.0\Minerals.AutoDomain.Generators.dll" Pack="true" PackagePath="analyzers\dotnet\cs" />
+        <None Include="$(PKGMinerals_CodeBuilder)\lib\netstandard2.0\Minerals.CodeBuilder.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
+        <None Include="$(PKGMinerals_StringCases)\lib\netstandard2.0\Minerals.StringCases.dll" Pack="true" Visible="false" PackagePath="analyzers\dotnet\cs" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Minerals.StringCases" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
         <PackageReference Include="Minerals.CodeBuilder" Version="0.*" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.*" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.*" GeneratePathProperty="true" PrivateAssets="all" />
-        <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
     </ItemGroup>
+
+    <Target Condition="'$(Configuration)' == 'Release'" Name="CustomCompile" BeforeTargets="Compile">
+        <MSBuild Projects="..\Minerals.AutoDomain.Generators\Minerals.AutoDomain.Generators.csproj"
+            Properties="Configuration=$(Configuration);
+                        Optimize=$(Optimize);
+                        Version=$(Version);
+                        Authors=$(Authors);
+                        Description=$(Description);
+                        Copyright=$(Copyright)" />
+    </Target>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Minerals.AutoDomain.Utils
+namespace Minerals.AutoDomain.Generators.Utils
 {
     public static class IdentifierGeneration
     {
@@ -19,6 +19,8 @@ namespace Minerals.AutoDomain.Utils
             IEquatableGeneration.AppendEquals(builder, name, "Value");
             IEquatableGeneration.AppendOverrideEquals(builder, name, "Value");
             IEquatableGeneration.AppendOverrideGetHashCode(builder, "Value");
+            IEquatableGeneration.AppendOverrideEqualOperator(builder, name, "Value", false);
+            IEquatableGeneration.AppendOverrideNotEqualOperator(builder, name, "Value", false);
 
             builder.CloseAllBlocks();
             return SourceText.From(builder.ToString(), Encoding.UTF8);

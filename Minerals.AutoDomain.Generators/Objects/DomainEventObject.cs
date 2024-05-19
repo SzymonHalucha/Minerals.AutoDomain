@@ -1,4 +1,4 @@
-namespace Minerals.AutoDomain.Objects
+namespace Minerals.AutoDomain.Generators.Objects
 {
     public readonly struct DomainEventObject : IEquatable<DomainEventObject>
     {
@@ -44,6 +44,7 @@ namespace Minerals.AutoDomain.Objects
                 : context.TargetSymbol.ContainingType.Name;
         }
 
+        //TODO: Include arguments namespaces
         private static string[] GetArgumentsOf(GeneratorAttributeSyntaxContext context)
         {
             if (context.TargetNode is TypeDeclarationSyntax typeSyntax)
