@@ -18,7 +18,7 @@ Add the Minerals.AutoDomain nuget package to your C# project using the following
 ### 1. Project file definition
 
 ```xml
-<PackageReference Include="Minerals.AutoDomain" Version="0.1.0" />
+<PackageReference Include="Minerals.AutoDomain" Version="0.2.0" />
 ```
 
 ### 2. dotnet command
