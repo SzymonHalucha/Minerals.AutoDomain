@@ -4,8 +4,7 @@ namespace Minerals.AutoDomain
     {
         public IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
 
-        public void AddDomainEvent(IDomainEvent domainEvent);
-        public void RemoveDomainEvent(IDomainEvent domainEvent);
+        public void AppendDomainEvent(IDomainEvent domainEvent);
         public void ClearDomainEvents();
     }
 }

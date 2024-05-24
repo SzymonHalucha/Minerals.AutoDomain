@@ -6,15 +6,20 @@ namespace Minerals.AutoDomain.Benchmarks
         public BenchmarkGeneration EntityGeneration { get; set; } = default!;
         public BenchmarkGeneration AggregateRootGeneration { get; set; } = default!;
         public BenchmarkGeneration DomainEventGeneration { get; set; } = default!;
+        public BenchmarkGeneration GenerateDomainEventGeneration { get; set; } = default!;
         public BenchmarkGeneration BaselineDouble { get; set; } = default!;
         public BenchmarkGeneration EntityGenerationDouble { get; set; } = default!;
         public BenchmarkGeneration AggregateRootGenerationDouble { get; set; } = default!;
         public BenchmarkGeneration DomainEventGenerationDouble { get; set; } = default!;
+        public BenchmarkGeneration GenerateDomainEventGenerationDouble { get; set; } = default!;
 
         private const string s_withoutAttribute = """
         namespace Minerals.Examples
         {
-            public partial class ExampleClass { }
+            public partial class ExampleClass
+            {
+                public int Property1 { get; }
+            }
         }
         """;
 
@@ -22,7 +27,10 @@ namespace Minerals.AutoDomain.Benchmarks
         namespace Minerals.Examples
         {
             [Minerals.AutoDomain.Entity]
-            public partial class ExampleClass { }
+            public partial class ExampleClass
+            {
+                public int Property1 { get; }
+            }
         }
         """;
 
@@ -30,15 +38,32 @@ namespace Minerals.AutoDomain.Benchmarks
         namespace Minerals.Examples
         {
             [Minerals.AutoDomain.AggregateRoot]
-            public partial class ExampleClass { }
+            public partial class ExampleClass
+            {
+                public int Property1 { get; }
+            }
         }
         """;
 
         private const string s_withDomainEventAttribute = """
         namespace Minerals.Examples
         {
-            [Minerals.AutoDomain.AggregateRoot, Minerals.AutoDomain.NewDomainEvent("ExampleDomainEvent")]
-            public partial class ExampleClass { }
+            [Minerals.AutoDomain.DomainEvent]
+            public readonly partial struct ExampleClass
+            {
+                public int Property1 { get; }
+            }
+        }
+        """;
+
+        private const string s_withGenerateDomainEventAttribute = """
+        namespace Minerals.Examples
+        {
+            [Minerals.AutoDomain.AggregateRoot, Minerals.AutoDomain.GenerateDomainEvent("ExampleDomainEvent")]
+            public partial class ExampleClass
+            {
+                public int Property1 { get; }
+            }
         }
         """;
 
@@ -73,6 +98,12 @@ namespace Minerals.AutoDomain.Benchmarks
             DomainEventGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withDomainEventAttribute,
+                new DomainEventGenerator(),
+                references
+            );
+            GenerateDomainEventGeneration = BenchmarkGenerationExtensions.CreateGeneration
+            (
+                s_withGenerateDomainEventAttribute,
                 new GenerateDomainEventGenerator(),
                 [new AggregateRootGenerator()],
                 references
@@ -97,6 +128,12 @@ namespace Minerals.AutoDomain.Benchmarks
             DomainEventGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
                 s_withDomainEventAttribute,
+                new DomainEventGenerator(),
+                references
+            );
+            GenerateDomainEventGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
+            (
+                s_withGenerateDomainEventAttribute,
                 new GenerateDomainEventGenerator(),
                 [new AggregateRootGenerator()],
                 references
@@ -109,6 +146,8 @@ namespace Minerals.AutoDomain.Benchmarks
             AggregateRootGenerationDouble.AddSourceCode("// Test Comment");
             DomainEventGenerationDouble.RunAndSaveGeneration();
             DomainEventGenerationDouble.AddSourceCode("// Test Comment");
+            GenerateDomainEventGenerationDouble.RunAndSaveGeneration();
+            GenerateDomainEventGenerationDouble.AddSourceCode("// Test Comment");
         }
 
         [Benchmark(Baseline = true)]
@@ -136,6 +175,12 @@ namespace Minerals.AutoDomain.Benchmarks
         }
 
         [Benchmark]
+        public void SingleGeneration_GenerateDomainEvent()
+        {
+            GenerateDomainEventGeneration.RunGeneration();
+        }
+
+        [Benchmark]
         public void DoubleGeneration_Baseline()
         {
             BaselineDouble.RunGeneration();
@@ -157,6 +202,12 @@ namespace Minerals.AutoDomain.Benchmarks
         public void DoubleGeneration_DomainEvent()
         {
             DomainEventGenerationDouble.RunGeneration();
+        }
+
+        [Benchmark]
+        public void DoubleGeneration_GenerateDomainEvent()
+        {
+            GenerateDomainEventGenerationDouble.RunGeneration();
         }
     }
 }

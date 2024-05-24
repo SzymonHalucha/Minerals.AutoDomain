@@ -12,6 +12,8 @@ namespace Minerals.AutoDomain.Generators
                 static (x, _) => new GenerateDomainEventObject(x)
             );
 
+            events = events.Where(x => x.Arguments.Length > 0 || x.Attributes.Any(x => x.IncludeParentId));
+
             context.RegisterSourceOutput(events, static (ctx, element) =>
             {
                 for (int i = 0; i < element.Attributes.Length; i++)
@@ -39,11 +41,18 @@ namespace Minerals.AutoDomain.Generators
             AppendRecordHeader(builder, eventObj, attributeIndex);
 
             var arguments = GetSplitedArguments(eventObj, attributeIndex);
+            AppendRecordArguments(builder, arguments);
+            AppendRecordConstructorHeader(builder, eventObj, arguments, attributeIndex);
+            AppendRecordConstructorBody(builder, arguments);
+
             if (arguments.Length > 0)
             {
-                AppendRecordArguments(builder, arguments);
-                AppendRecordConstructorHeader(builder, eventObj, arguments, attributeIndex);
-                AppendRecordConstructorBody(builder, arguments);
+                var pascalCases = arguments.Select(x => x.PascalCaseName);
+                IEquatableGeneration.AppendEquals(builder, eventObj.Attributes[attributeIndex].Name, pascalCases);
+                IEquatableGeneration.AppendOverrideEquals(builder, eventObj.Attributes[attributeIndex].Name, pascalCases);
+                IEquatableGeneration.AppendOverrideGetHashCode(builder, pascalCases);
+                IEquatableGeneration.AppendOverrideEqualOperator(builder, eventObj.Attributes[attributeIndex].Name, pascalCases, false);
+                IEquatableGeneration.AppendOverrideNotEqualOperator(builder, eventObj.Attributes[attributeIndex].Name, pascalCases, false);
             }
 
             builder.CloseAllBlocks();
@@ -65,7 +74,9 @@ namespace Minerals.AutoDomain.Generators
         {
             builder.WriteLine("public readonly partial struct ")
                 .Write(eventObj.Attributes[attributeIndex].Name)
-                .Write(" : global::Minerals.AutoDomain.IDomainEvent")
+                .Write(" : global::Minerals.AutoDomain.IDomainEvent, global::System.IEquatable<")
+                .Write(eventObj.Attributes[attributeIndex].Name)
+                .Write(">")
                 .OpenBlock();
         }
 
@@ -133,7 +144,8 @@ namespace Minerals.AutoDomain.Generators
                     .Write(arguments[i].CamelCaseName)
                     .Write(";");
             }
-            builder.CloseBlock();
+            builder.CloseBlock()
+                .NewLine();
         }
     }
 }

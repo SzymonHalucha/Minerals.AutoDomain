@@ -4,7 +4,7 @@
 // Name: Minerals.AutoDomain.Generators
 // Version: {Removed}
 // </auto-generated>
-namespace Examples.Events
+namespace Examples
 {
     [global::System.Diagnostics.DebuggerNonUserCode]
     [global::System.Runtime.CompilerServices.CompilerGenerated]

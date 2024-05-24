@@ -9,7 +9,7 @@ namespace Minerals.Examples.Events
     [global::System.Diagnostics.DebuggerNonUserCode]
     [global::System.Runtime.CompilerServices.CompilerGenerated]
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.IDomainEvent
+    public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.IDomainEvent, global::System.IEquatable<ExampleDomainEvent>
     {
         public TestClassId TestClassId { get; }
         public global::OtherNamespace.OtherStruct OtherStruct { get; }
@@ -18,6 +18,31 @@ namespace Minerals.Examples.Events
         {
             TestClassId = testClassId;
             OtherStruct = otherStruct;
+        }
+
+        public bool Equals(ExampleDomainEvent other)
+        {
+            return other.TestClassId.Equals(TestClassId) && other.OtherStruct.Equals(OtherStruct);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ExampleDomainEvent other && other.TestClassId.Equals(TestClassId) && other.OtherStruct.Equals(OtherStruct);
+        }
+
+        public override int GetHashCode()
+        {
+            return global::System.HashCode.Combine(TestClassId, OtherStruct);
+        }
+
+        public static bool operator ==(ExampleDomainEvent left, ExampleDomainEvent right)
+        {
+            return left.TestClassId.Equals(right.TestClassId) && left.OtherStruct.Equals(right.OtherStruct);
+        }
+
+        public static bool operator !=(ExampleDomainEvent left, ExampleDomainEvent right)
+        {
+            return !left.TestClassId.Equals(right.TestClassId) || !left.OtherStruct.Equals(right.OtherStruct);
         }
     }
 }

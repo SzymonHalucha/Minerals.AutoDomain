@@ -25,7 +25,7 @@ namespace Minerals.AutoDomain.Generators.Utils
                 .NewLine();
         }
 
-        public static void AppendEquals(CodeBuilder builder, string objectName, string[] valueSyntaxes)
+        public static void AppendEquals(CodeBuilder builder, string objectName, IEnumerable<string> valueSyntaxes)
         {
             builder.WriteLine("public bool Equals(")
                 .Write(objectName)
@@ -66,7 +66,7 @@ namespace Minerals.AutoDomain.Generators.Utils
                 .NewLine();
         }
 
-        public static void AppendOverrideEquals(CodeBuilder builder, string objectName, string[] valueSyntaxes)
+        public static void AppendOverrideEquals(CodeBuilder builder, string objectName, IEnumerable<string> valueSyntaxes)
         {
             builder.WriteLine("public override bool Equals(object obj)")
                 .OpenBlock()
@@ -103,7 +103,7 @@ namespace Minerals.AutoDomain.Generators.Utils
                 .NewLine();
         }
 
-        public static void AppendOverrideGetHashCode(CodeBuilder builder, string[] valueSyntaxes)
+        public static void AppendOverrideGetHashCode(CodeBuilder builder, IEnumerable<string> valueSyntaxes)
         {
             builder.WriteLine("public override int GetHashCode()")
                 .OpenBlock()
@@ -140,7 +140,7 @@ namespace Minerals.AutoDomain.Generators.Utils
                 .NewLine();
         }
 
-        public static void AppendOverrideEqualOperator(CodeBuilder builder, string objectName, string[] valueSyntaxes, bool appendNullChecking)
+        public static void AppendOverrideEqualOperator(CodeBuilder builder, string objectName, IEnumerable<string> valueSyntaxes, bool appendNullChecking)
         {
             builder.WriteLine("public static bool operator ==(")
                 .Write(objectName)
@@ -184,7 +184,7 @@ namespace Minerals.AutoDomain.Generators.Utils
                 .CloseBlock();
         }
 
-        public static void AppendOverrideNotEqualOperator(CodeBuilder builder, string objectName, string[] valueSyntaxes, bool appendNullChecking)
+        public static void AppendOverrideNotEqualOperator(CodeBuilder builder, string objectName, IEnumerable<string> valueSyntaxes, bool appendNullChecking)
         {
             builder.WriteLine("public static bool operator !=(")
                 .Write(objectName)

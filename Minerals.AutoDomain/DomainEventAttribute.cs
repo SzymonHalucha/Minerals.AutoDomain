@@ -1,5 +1,5 @@
 namespace Minerals.AutoDomain
 {
-    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Struct, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public sealed class DomainEventAttribute : Attribute;
 }

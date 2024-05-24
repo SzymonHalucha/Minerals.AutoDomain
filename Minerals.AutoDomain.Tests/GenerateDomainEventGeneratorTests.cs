@@ -162,7 +162,7 @@ namespace Minerals.AutoDomain.Tests
         }
 
         [TestMethod]
-        public Task OnClass_ShouldGenerateWithoutId()
+        public Task OnClass_ShouldNotGenerate()
         {
             const string source = """
             using Minerals.AutoDomain;

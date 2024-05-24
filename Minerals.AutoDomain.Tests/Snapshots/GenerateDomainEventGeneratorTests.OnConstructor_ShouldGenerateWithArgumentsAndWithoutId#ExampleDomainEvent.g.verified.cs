@@ -7,7 +7,7 @@
 [global::System.Diagnostics.DebuggerNonUserCode]
 [global::System.Runtime.CompilerServices.CompilerGenerated]
 [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.IDomainEvent
+public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.IDomainEvent, global::System.IEquatable<ExampleDomainEvent>
 {
     public int ExampleNumber { get; }
     public string ExampleText { get; }
@@ -16,5 +16,30 @@ public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.
     {
         ExampleNumber = exampleNumber;
         ExampleText = exampleText;
+    }
+
+    public bool Equals(ExampleDomainEvent other)
+    {
+        return other.ExampleNumber.Equals(ExampleNumber) && other.ExampleText.Equals(ExampleText);
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is ExampleDomainEvent other && other.ExampleNumber.Equals(ExampleNumber) && other.ExampleText.Equals(ExampleText);
+    }
+
+    public override int GetHashCode()
+    {
+        return global::System.HashCode.Combine(ExampleNumber, ExampleText);
+    }
+
+    public static bool operator ==(ExampleDomainEvent left, ExampleDomainEvent right)
+    {
+        return left.ExampleNumber.Equals(right.ExampleNumber) && left.ExampleText.Equals(right.ExampleText);
+    }
+
+    public static bool operator !=(ExampleDomainEvent left, ExampleDomainEvent right)
+    {
+        return !left.ExampleNumber.Equals(right.ExampleNumber) || !left.ExampleText.Equals(right.ExampleText);
     }
 }

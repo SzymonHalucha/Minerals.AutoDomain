@@ -9,13 +9,38 @@ namespace Minerals.Tests.Events
     [global::System.Diagnostics.DebuggerNonUserCode]
     [global::System.Runtime.CompilerServices.CompilerGenerated]
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-    public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.IDomainEvent
+    public readonly partial struct ExampleDomainEvent : global::Minerals.AutoDomain.IDomainEvent, global::System.IEquatable<ExampleDomainEvent>
     {
         public TestClassId TestClassId { get; }
 
         public ExampleDomainEvent(TestClassId testClassId)
         {
             TestClassId = testClassId;
+        }
+
+        public bool Equals(ExampleDomainEvent other)
+        {
+            return other.TestClassId.Equals(TestClassId);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ExampleDomainEvent other && other.TestClassId.Equals(TestClassId);
+        }
+
+        public override int GetHashCode()
+        {
+            return global::System.HashCode.Combine(TestClassId);
+        }
+
+        public static bool operator ==(ExampleDomainEvent left, ExampleDomainEvent right)
+        {
+            return left.TestClassId.Equals(right.TestClassId);
+        }
+
+        public static bool operator !=(ExampleDomainEvent left, ExampleDomainEvent right)
+        {
+            return !left.TestClassId.Equals(right.TestClassId);
         }
     }
 }

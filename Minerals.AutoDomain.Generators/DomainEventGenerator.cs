@@ -45,7 +45,6 @@ namespace Minerals.AutoDomain.Generators
             {
                 builder.WriteLine("namespace ")
                     .Write(eventObj.Namespace)
-                    .Write(".Events")
                     .OpenBlock();
             }
         }
