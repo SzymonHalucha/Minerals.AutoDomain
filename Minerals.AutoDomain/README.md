@@ -1,11 +1,5 @@
 # Minerals.AutoDomain
 
-![GitHub License](https://img.shields.io/github/license/SzymonHalucha/Minerals.AutoDomain?style=for-the-badge)
-![NuGet Version](https://img.shields.io/nuget/v/Minerals.AutoDomain?style=for-the-badge)
-![NuGet Downloads](https://img.shields.io/nuget/dt/Minerals.AutoDomain?style=for-the-badge)
-
-[Package on nuget.org](https://www.nuget.org/packages/Minerals.AutoDomain/)
-
 *WORK IN PROGRESS...*
 
 This package, with the help of an incremental source generator, provides a fast method of defining domain layer components with their specific implementation, such as aggregates, entities and domain events.
