@@ -27,7 +27,7 @@
         <PackageProjectUrl>https://github.com/SzymonHalucha/Minerals.AutoDomain</PackageProjectUrl>
         <PackageTags>aggregates, aggregate, root, domain, ddd, events, entity, entites, strongly, typed, id, attributes, generator, generation</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>Extended domain events generation. Changed NewDomainEvent attribute to GenerateDomainEvent. Added DomainEvent attribute.</PackageReleaseNotes>
+        <PackageReleaseNotes>Extended domain events generation. Changed NewDomainEvent attribute to GenerateDomainEvent. Added DomainEvent attribute. Removed 'RemoveDomainEvent' method from the AggregateRoot. Renamed 'AddDomainEvent' to 'AppendDomainEvent' in the AggregateRoot.</PackageReleaseNotes>
     </PropertyGroup>
 
     <PropertyGroup>
