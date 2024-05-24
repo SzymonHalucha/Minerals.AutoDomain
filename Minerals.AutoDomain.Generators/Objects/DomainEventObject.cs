@@ -2,105 +2,48 @@ namespace Minerals.AutoDomain.Generators.Objects
 {
     public readonly struct DomainEventObject : IEquatable<DomainEventObject>
     {
+        public string Name { get; }
         public string Namespace { get; }
-        public string ParentName { get; }
+        public string[] Modifiers { get; }
         public string[] Arguments { get; }
-        public AttributeArgumentsObject[] Attributes { get; }
 
         public DomainEventObject(GeneratorAttributeSyntaxContext context)
         {
+            Name = CodeBuilderHelper.GetIdentifierNameOf(context.TargetNode);
             Namespace = CodeBuilderHelper.GetNamespaceOf(context.TargetNode) ?? string.Empty;
-            ParentName = GetParentNameOf(context);
-            Arguments = GetArgumentsOf(context);
-            Attributes = GetAttributesArgumentsOf(context);
+            Modifiers = CodeBuilderHelper.GetModifiersOf(context.TargetNode).ToArray();
+            Arguments = GetArgumentsOf((TypeDeclarationSyntax)context.TargetNode);
         }
 
         public bool Equals(DomainEventObject other)
         {
-            return other.Namespace.Equals(Namespace)
-                && other.ParentName.Equals(ParentName)
-                && other.Arguments.SequenceEqual(Arguments)
-                && other.Attributes.SequenceEqual(Attributes);
+            return other.Name.Equals(Name)
+                && other.Namespace.Equals(Namespace)
+                && other.Modifiers.SequenceEqual(Modifiers)
+                && other.Arguments.SequenceEqual(Arguments);
         }
 
         public override bool Equals(object? obj)
         {
             return obj is DomainEventObject other
+                && other.Name.Equals(Name)
                 && other.Namespace.Equals(Namespace)
-                && other.ParentName.Equals(ParentName)
-                && other.Arguments.SequenceEqual(Arguments)
-                && other.Attributes.SequenceEqual(Attributes);
+                && other.Modifiers.SequenceEqual(Modifiers)
+                && other.Arguments.SequenceEqual(Arguments);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Namespace, ParentName, Arguments, Attributes);
+            return HashCode.Combine(Name, Namespace, Modifiers, Arguments);
         }
 
-        private static string GetParentNameOf(GeneratorAttributeSyntaxContext context)
+        private static string[] GetArgumentsOf(TypeDeclarationSyntax typeSyntax)
         {
-            return context.TargetNode is BaseTypeDeclarationSyntax typeSyntax
-                ? typeSyntax.Identifier.Text
-                : context.TargetSymbol.ContainingType.Name;
-        }
-
-        private static string[] GetArgumentsOf(GeneratorAttributeSyntaxContext context)
-        {
-            if (context.TargetNode is TypeDeclarationSyntax typeSyntax)
-            {
-                return GetArgumentsFromParameterList(context.SemanticModel, typeSyntax.ParameterList);
-            }
-            else if (context.TargetNode is MethodDeclarationSyntax methodSyntax)
-            {
-                return GetArgumentsFromParameterList(context.SemanticModel, methodSyntax.ParameterList);
-            }
-            else if (context.TargetNode is ConstructorDeclarationSyntax constructorSyntax)
-            {
-                return GetArgumentsFromParameterList(context.SemanticModel, constructorSyntax.ParameterList);
-            }
-            else if (context.TargetNode is PropertyDeclarationSyntax propertySyntax)
-            {
-                var type = context.SemanticModel.GetDeclaredSymbol(propertySyntax)!.Type;
-                return
-                [
-                    type!.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                    propertySyntax.Identifier.Text
-                ];
-            }
-            else
-            {
-                return Array.Empty<string>();
-            }
-        }
-
-        private static string[] GetArgumentsFromParameterList(SemanticModel model, ParameterListSyntax? listSyntax)
-        {
-            if (listSyntax is null)
-            {
-                return Array.Empty<string>();
-            }
-            var args = new string[listSyntax.Parameters.Count * 2];
-            for (int i = 0; i < listSyntax.Parameters.Count; i++)
-            {
-                var type = model.GetDeclaredSymbol(listSyntax.Parameters[i])!.Type;
-                args[i * 2] = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-                args[i * 2 + 1] = listSyntax.Parameters[i].Identifier.Text;
-            }
-            return args;
-        }
-
-        private static AttributeArgumentsObject[] GetAttributesArgumentsOf(GeneratorAttributeSyntaxContext context)
-        {
-            var args = new AttributeArgumentsObject[context.Attributes.Length];
-            for (int i = 0; i < args.Length; i++)
-            {
-                args[i] = new AttributeArgumentsObject
-                (
-                    (string)context.Attributes[i].ConstructorArguments.First().Value!,
-                    (bool)context.Attributes[i].ConstructorArguments.Skip(1).First().Value!
-                );
-            }
-            return args;
+            var fields = typeSyntax.Members.OfType<FieldDeclarationSyntax>()
+                .SelectMany(x => x.Declaration.Variables.Select(y => y.Identifier.ValueText));
+            var properties = typeSyntax.Members.OfType<PropertyDeclarationSyntax>()
+                .Select(x => x.Identifier.ValueText);
+            return fields?.Concat(properties)?.ToArray() ?? Array.Empty<string>();
         }
     }
 }

@@ -35,8 +35,7 @@ namespace Minerals.AutoDomain.Generators
             AppendDomainEventsProperty(builder);
             AppendDomainEventsField(builder);
 
-            AppendAddDomainEventMethod(builder);
-            AppendRemoveDomainEventMethod(builder);
+            AppendAppendDomainEventMethod(builder);
             AppendClearDomainEventsMethod(builder);
 
             IEquatableGeneration.AppendEquals(builder, entityObj.Name, "Id.Value");
@@ -88,7 +87,7 @@ namespace Minerals.AutoDomain.Generators
         private static void AppendDomainEventsProperty(CodeBuilder builder)
         {
             builder.WriteLine("public global::System.Collections.Generic.IReadOnlyCollection")
-                .Write("<global::Minerals.AutoDomain.IDomainEvent> DomainEvents => _domainEvents;")
+                .Write("<global::Minerals.AutoDomain.IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();")
                 .NewLine();
         }
 
@@ -101,20 +100,11 @@ namespace Minerals.AutoDomain.Generators
                 .NewLine();
         }
 
-        private static void AppendAddDomainEventMethod(CodeBuilder builder)
+        private static void AppendAppendDomainEventMethod(CodeBuilder builder)
         {
-            builder.WriteLine("public void AddDomainEvent(global::Minerals.AutoDomain.IDomainEvent domainEvent)")
+            builder.WriteLine("public void AppendDomainEvent(global::Minerals.AutoDomain.IDomainEvent domainEvent)")
                 .OpenBlock()
                 .WriteLine("_domainEvents.Add(domainEvent);")
-                .CloseBlock()
-                .NewLine();
-        }
-
-        private static void AppendRemoveDomainEventMethod(CodeBuilder builder)
-        {
-            builder.WriteLine("public void RemoveDomainEvent(global::Minerals.AutoDomain.IDomainEvent domainEvent)")
-                .OpenBlock()
-                .WriteLine("_domainEvents.Remove(domainEvent);")
                 .CloseBlock()
                 .NewLine();
         }

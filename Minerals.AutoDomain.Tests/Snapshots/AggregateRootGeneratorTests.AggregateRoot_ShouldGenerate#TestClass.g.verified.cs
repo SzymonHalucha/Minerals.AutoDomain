@@ -11,18 +11,13 @@ public partial class TestClass : global::Minerals.AutoDomain.IAggregateRoot, glo
 {
     public TestClassId Id { get; private set; }
 
-    public global::System.Collections.Generic.IReadOnlyCollection<global::Minerals.AutoDomain.IDomainEvent> DomainEvents => _domainEvents;
+    public global::System.Collections.Generic.IReadOnlyCollection<global::Minerals.AutoDomain.IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     private readonly global::System.Collections.Generic.List<global::Minerals.AutoDomain.IDomainEvent> _domainEvents = new global::System.Collections.Generic.List<global::Minerals.AutoDomain.IDomainEvent>();
 
-    public void AddDomainEvent(global::Minerals.AutoDomain.IDomainEvent domainEvent)
+    public void AppendDomainEvent(global::Minerals.AutoDomain.IDomainEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
-    }
-
-    public void RemoveDomainEvent(global::Minerals.AutoDomain.IDomainEvent domainEvent)
-    {
-        _domainEvents.Remove(domainEvent);
     }
 
     public void ClearDomainEvents()
@@ -37,7 +32,7 @@ public partial class TestClass : global::Minerals.AutoDomain.IAggregateRoot, glo
 
     public override bool Equals(object obj)
     {
-        return obj is TestClass && ((TestClass)obj).Id.Value.Equals(Id.Value);
+        return obj is TestClass other && other.Id.Value.Equals(Id.Value);
     }
 
     public override int GetHashCode()

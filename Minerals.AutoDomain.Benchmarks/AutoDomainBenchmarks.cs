@@ -11,14 +11,14 @@ namespace Minerals.AutoDomain.Benchmarks
         public BenchmarkGeneration AggregateRootGenerationDouble { get; set; } = default!;
         public BenchmarkGeneration DomainEventGenerationDouble { get; set; } = default!;
 
-        private const string _withoutAttribute = """
+        private const string s_withoutAttribute = """
         namespace Minerals.Examples
         {
             public partial class ExampleClass { }
         }
         """;
 
-        private const string _withEntityAttribute = """
+        private const string s_withEntityAttribute = """
         namespace Minerals.Examples
         {
             [Minerals.AutoDomain.Entity]
@@ -26,7 +26,7 @@ namespace Minerals.AutoDomain.Benchmarks
         }
         """;
 
-        private const string _withAggregateRootAttribute = """
+        private const string s_withAggregateRootAttribute = """
         namespace Minerals.Examples
         {
             [Minerals.AutoDomain.AggregateRoot]
@@ -34,7 +34,7 @@ namespace Minerals.AutoDomain.Benchmarks
         }
         """;
 
-        private const string _withDomainEventAttribute = """
+        private const string s_withDomainEventAttribute = """
         namespace Minerals.Examples
         {
             [Minerals.AutoDomain.AggregateRoot, Minerals.AutoDomain.NewDomainEvent("ExampleDomainEvent")]
@@ -45,59 +45,59 @@ namespace Minerals.AutoDomain.Benchmarks
         [GlobalSetup]
         public void Initialize()
         {
-            var references = BenchmarkGenerationExtensions.GetAppReferences
+            IEnumerable<MetadataReference> references = BenchmarkGenerationExtensions.GetAppReferences
             (
                 typeof(object),
                 typeof(IAggregateRoot),
-                typeof(DomainEventGenerator),
+                typeof(GenerateDomainEventGenerator),
                 typeof(StringCases.StringExtensions),
                 typeof(CodeBuilder)
             );
             Baseline = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withoutAttribute,
+                s_withoutAttribute,
                 references
             );
             EntityGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withEntityAttribute,
+                s_withEntityAttribute,
                 new EntityGenerator(),
                 references
             );
             AggregateRootGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withAggregateRootAttribute,
+                s_withAggregateRootAttribute,
                 new AggregateRootGenerator(),
                 references
             );
             DomainEventGeneration = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withDomainEventAttribute,
-                new DomainEventGenerator(),
+                s_withDomainEventAttribute,
+                new GenerateDomainEventGenerator(),
                 [new AggregateRootGenerator()],
                 references
             );
             BaselineDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withoutAttribute,
+                s_withoutAttribute,
                 references
             );
             EntityGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withEntityAttribute,
+                s_withEntityAttribute,
                 new EntityGenerator(),
                 references
             );
             AggregateRootGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withAggregateRootAttribute,
+                s_withAggregateRootAttribute,
                 new AggregateRootGenerator(),
                 references
             );
             DomainEventGenerationDouble = BenchmarkGenerationExtensions.CreateGeneration
             (
-                _withDomainEventAttribute,
-                new DomainEventGenerator(),
+                s_withDomainEventAttribute,
+                new GenerateDomainEventGenerator(),
                 [new AggregateRootGenerator()],
                 references
             );

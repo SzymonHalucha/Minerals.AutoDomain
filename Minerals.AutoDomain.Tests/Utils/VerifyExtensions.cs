@@ -2,10 +2,10 @@ namespace Minerals.AutoDomain.Tests.Utils
 {
     public static class VerifyExtensions
     {
-        private static IEnumerable<MetadataReference> _globalReferences = Array.Empty<MetadataReference>();
-        private static bool _scrubCommentLines = false;
-        private static bool _scrubVersionInfo = true;
-        private static bool _isInitialized = false;
+        private static IEnumerable<MetadataReference> s_globalReferences = Array.Empty<MetadataReference>();
+        private static bool s_scrubVersionInfo = true;
+        private static bool s_scrubCommentLines;
+        private static bool s_isInitialized;
 
         public static void Initialize
         (
@@ -15,22 +15,20 @@ namespace Minerals.AutoDomain.Tests.Utils
             IEnumerable<DiffTool>? order = null
         )
         {
-            if (order == null)
+            order ??= new DiffTool[] { DiffTool.VisualStudioCode, DiffTool.VisualStudio, DiffTool.Rider, DiffTool.Neovim, DiffTool.Vim };
+            if (s_isInitialized)
             {
-                order = new DiffTool[] { DiffTool.VisualStudioCode, DiffTool.VisualStudio, DiffTool.Rider, DiffTool.Neovim, DiffTool.Vim };
+                return;
             }
 
-            if (!_isInitialized)
-            {
-                DiffTools.UseOrder(order.ToArray());
-                VerifyBase.UseProjectRelativeDirectory("Snapshots");
-                VerifierSettings.UseEncoding(System.Text.Encoding.UTF8);
-                VerifySourceGenerators.Initialize();
-                _globalReferences = globalReferences;
-                _scrubCommentLines = removeCommentLines;
-                _scrubVersionInfo = removeVersionInfo;
-                _isInitialized = true;
-            }
+            DiffTools.UseOrder(order.ToArray());
+            VerifyBase.UseProjectRelativeDirectory("Snapshots");
+            VerifierSettings.UseEncoding(System.Text.Encoding.UTF8);
+            VerifySourceGenerators.Initialize();
+            s_globalReferences = globalReferences;
+            s_scrubCommentLines = removeCommentLines;
+            s_scrubVersionInfo = removeVersionInfo;
+            s_isInitialized = true;
         }
 
         public static IEnumerable<MetadataReference> GetAppReferences(params Type[] additionalReferences)
@@ -105,7 +103,7 @@ namespace Minerals.AutoDomain.Tests.Utils
         )
         {
             var cSharpCmp = CSharpCompilation.Create("Tests")
-                .AddReferences(_globalReferences)
+                .AddReferences(s_globalReferences)
                 .WithOptions(new CSharpCompilationOptions
                 (
                     OutputKind.DynamicallyLinkedLibrary,
@@ -141,7 +139,7 @@ namespace Minerals.AutoDomain.Tests.Utils
             var tree = CSharpSyntaxTree.ParseText(source);
             var cSharpCmp = CSharpCompilation.Create("Tests")
                 .AddReferences(MetadataReference.CreateFromFile(tree.GetType().Assembly.Location))
-                .AddReferences(_globalReferences)
+                .AddReferences(s_globalReferences)
                 .AddSyntaxTrees(tree)
                 .WithOptions(new CSharpCompilationOptions
                 (
@@ -169,9 +167,9 @@ namespace Minerals.AutoDomain.Tests.Utils
 
         private static SettingsTask ApplyDynamicSettings(SettingsTask task)
         {
-            if (_scrubCommentLines)
+            if (s_scrubCommentLines)
             {
-                bool isBlockComment = false;
+                var isBlockComment = false;
                 task.ScrubLines("cs", x =>
                 {
                     if (isBlockComment && x.Contains("*/"))
@@ -194,18 +192,11 @@ namespace Minerals.AutoDomain.Tests.Utils
                     }
                 });
             }
-            else if (_scrubVersionInfo)
+            else if (s_scrubVersionInfo)
             {
                 task.ScrubLinesWithReplace("cs", x =>
                 {
-                    if (x.Replace(" ", "").StartsWith("//Version:"))
-                    {
-                        return "// Version: {Removed}";
-                    }
-                    else
-                    {
-                        return x;
-                    }
+                    return x.Replace(" ", "").StartsWith("//Version:") ? "// Version: {Removed}" : x;
                 });
             }
             return task;

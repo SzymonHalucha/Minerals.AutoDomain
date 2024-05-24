@@ -25,7 +25,7 @@ public readonly struct TestClassId : global::System.IEquatable<TestClassId>
 
     public override bool Equals(object obj)
     {
-        return obj is TestClassId && ((TestClassId)obj).Value.Equals(Value);
+        return obj is TestClassId other && other.Value.Equals(Value);
     }
 
     public override int GetHashCode()

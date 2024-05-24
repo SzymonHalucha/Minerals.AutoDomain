@@ -18,7 +18,7 @@ public partial class TestClass : global::Minerals.AutoDomain.IEntity, global::Sy
 
     public override bool Equals(object obj)
     {
-        return obj is TestClass && ((TestClass)obj).Id.Value.Equals(Id.Value);
+        return obj is TestClass other && other.Id.Value.Equals(Id.Value);
     }
 
     public override int GetHashCode()

@@ -11,7 +11,7 @@ namespace Minerals.AutoDomain.Tests
                 typeof(CodeBuilder),
                 typeof(IAggregateRoot),
                 typeof(StringCases.StringExtensions),
-                typeof(DomainEventGenerator),
+                typeof(GenerateDomainEventGenerator),
                 typeof(Assembly)
             );
             VerifyExtensions.Initialize(references);
