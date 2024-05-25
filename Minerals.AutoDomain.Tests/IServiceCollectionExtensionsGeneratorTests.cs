@@ -1,6 +1,3 @@
-using Minerals.AutoDomain;
-using System.Threading;
-
 namespace Minerals.AutoDomain.Tests
 {
     [TestClass]
@@ -34,7 +31,7 @@ namespace Minerals.AutoDomain.Tests
 
             public class TestDomainEventHandler : IDomainEventHandler<TestDomainEvent>
             {
-                public Task Handle(TestDomainEvent domainEvent, CancellationToken cancellation)
+                public Task HandleAsync(TestDomainEvent domainEvent, CancellationToken cancellation)
                 {
                     throw new NotImplementedException();
                 }
@@ -48,7 +45,7 @@ namespace Minerals.AutoDomain.Tests
         }
 
         [TestMethod]
-        public Task MultiDomainEventsHandler_ShouldGenerate()
+        public Task MultiDomainEventsHandlers_ShouldGenerate()
         {
             const string source = """
             using Minerals.AutoDomain;
@@ -61,7 +58,7 @@ namespace Minerals.AutoDomain.Tests
 
             public class TestDomainEventHandler1 : IDomainEventHandler<TestDomainEvent>
             {
-                public Task Handle(TestDomainEvent domainEvent, CancellationToken cancellation)
+                public Task HandleAsync(TestDomainEvent domainEvent, CancellationToken cancellation)
                 {
                     throw new NotImplementedException();
                 }
@@ -69,9 +66,51 @@ namespace Minerals.AutoDomain.Tests
 
             public class TestDomainEventHandler2 : IDomainEventHandler<TestDomainEvent>
             {
-                public Task Handle(TestDomainEvent domainEvent, CancellationToken cancellation)
+                public Task HandleAsync(TestDomainEvent domainEvent, CancellationToken cancellation)
                 {
                     throw new NotImplementedException();
+                }
+            }
+            """;
+            IIncrementalGenerator[] additional =
+            [
+                new DomainEventGenerator()
+            ];
+            return this.VerifyIncrementalGenerators(source, new IServiceCollectionExtensionsGenerator(), additional);
+        }
+
+        [TestMethod]
+        public Task MultiDomainEventsHandlersDifferentNamespaces_ShouldGenerate()
+        {
+            const string source = """
+            using Minerals.AutoDomain;
+
+            namespace Examples1
+            {
+                [DomainEvent]
+                public readonly partial struct TestDomainEvent : IDomainEvent
+                {
+                    public int Property1 { get; }
+                }
+            }
+
+            namespace Handlers1
+            {
+                using Examples1;
+                public class TestDomainEventHandler1 : IDomainEventHandler<TestDomainEvent>
+                {
+                    public Task HandleAsync(TestDomainEvent domainEvent, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                public class TestDomainEventHandler2 : IDomainEventHandler<TestDomainEvent>
+                {
+                    public Task HandleAsync(TestDomainEvent domainEvent, CancellationToken cancellation)
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
             }
             """;

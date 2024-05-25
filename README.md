@@ -24,7 +24,7 @@ Add the Minerals.AutoDomain nuget package to your C# project using the following
 ### 1. Project file definition
 
 ```xml
-<PackageReference Include="Minerals.AutoDomain" Version="0.3.0" />
+<PackageReference Include="Minerals.AutoDomain" Version="0.4.0" />
 ```
 
 ### 2. dotnet command
@@ -491,6 +491,30 @@ namespace ExampleNamespace.Events
         {
             return !left.Arg1.Equals(right.Arg1) || !left.Arg2.Equals(right.Arg2) || !left.Arg3.Equals(right.Arg3);
         }
+    }
+}
+```
+
+### Domain Event Dispatcher
+
+Since version 0.4.0, the package comes with a domain event dispatcher. Domain event handlers are automatically registered into the IoC container.
+
+```csharp
+// Adding to IoC container
+builder.Services.AddDomainEventDispatcher();
+
+// Dispatching domain events
+private readonly IDomainEventDispatcher _dispatcher;
+// ...
+_dispatcher.Dispatch(new ExampleDomainEvent(), cancellationToken);
+// ...
+
+// Handling of domain events
+public class ExampleDomainEventHandler : IDomainEventHandler<ExampleDomainEvent>
+{
+    public Task Handle(ExampleEvent domainEvent, CancellationToken cancellationToken)
+    {
+        // ...
     }
 }
 ```
