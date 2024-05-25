@@ -3,6 +3,7 @@ namespace Minerals.AutoDomain.Generators.Objects
     public readonly struct DomainEventObject : IEquatable<DomainEventObject>
     {
         public string Name { get; }
+        public string Keyword { get; }
         public string Namespace { get; }
         public string[] Modifiers { get; }
         public string[] Arguments { get; }
@@ -10,6 +11,7 @@ namespace Minerals.AutoDomain.Generators.Objects
         public DomainEventObject(GeneratorAttributeSyntaxContext context)
         {
             Name = CodeBuilderHelper.GetIdentifierNameOf(context.TargetNode);
+            Keyword = GetKeywordOf((TypeDeclarationSyntax)context.TargetNode);
             Namespace = CodeBuilderHelper.GetNamespaceOf(context.TargetNode) ?? string.Empty;
             Modifiers = CodeBuilderHelper.GetModifiersOf(context.TargetNode).ToArray();
             Arguments = GetArgumentsOf((TypeDeclarationSyntax)context.TargetNode);
@@ -18,6 +20,7 @@ namespace Minerals.AutoDomain.Generators.Objects
         public bool Equals(DomainEventObject other)
         {
             return other.Name.Equals(Name)
+                && other.Keyword.Equals(Keyword)
                 && other.Namespace.Equals(Namespace)
                 && other.Modifiers.SequenceEqual(Modifiers)
                 && other.Arguments.SequenceEqual(Arguments);
@@ -27,6 +30,7 @@ namespace Minerals.AutoDomain.Generators.Objects
         {
             return obj is DomainEventObject other
                 && other.Name.Equals(Name)
+                && other.Keyword.Equals(Keyword)
                 && other.Namespace.Equals(Namespace)
                 && other.Modifiers.SequenceEqual(Modifiers)
                 && other.Arguments.SequenceEqual(Arguments);
@@ -34,7 +38,12 @@ namespace Minerals.AutoDomain.Generators.Objects
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Namespace, Modifiers, Arguments);
+            return HashCode.Combine(Name, Keyword, Namespace, Modifiers, Arguments);
+        }
+
+        private static string GetKeywordOf(TypeDeclarationSyntax typeSyntax)
+        {
+            return typeSyntax.Keyword.ToString();
         }
 
         private static string[] GetArgumentsOf(TypeDeclarationSyntax typeSyntax)
